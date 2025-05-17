@@ -1,4 +1,4 @@
-#include "Fibonacci.h"
+#include "fibonacci.hpp"
 #include <stdexcept>
 
 int Fibonacci::compute(int n) {
