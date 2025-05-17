@@ -1,0 +1,21 @@
+{
+    "name": "C++ Dev with Conan & CMake",
+    "build": {
+      "dockerfile": "Dockerfile",
+      "args": { "VARIANT": "22.04" }
+    },
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "terminal.integrated.shell.linux": "/bin/bash",
+          "cmake.configureOnOpen": true
+        },
+        "extensions": [
+          "ms-vscode.cpptools",
+          "ms-vscode.cmake-tools",
+          "jfrog.conan"
+        ]
+      }
+    },
+    "remoteUser": "vscode"
+}
