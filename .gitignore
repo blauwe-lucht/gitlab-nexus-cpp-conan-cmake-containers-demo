@@ -1,0 +1,5 @@
+# Conan/CMake generated files
+build/
+
+# CMake user files
+CMakeUserPresets.json

@@ -1,0 +1,4 @@
+{
+    "cmake.sourceDirectory": "/workspaces/gitlab-nexus-cpp-conan-cmake-container-demo/libfibonacci",
+    "cmake.ignoreCMakeListsMissing": true
+}
