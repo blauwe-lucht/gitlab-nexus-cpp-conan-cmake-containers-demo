@@ -110,6 +110,23 @@ create_conan_repo() {
     log_info "Created Conan hosted repo '${repo}'"
 }
 
+enable_conan_realm() {
+    local realm="ConanToken"
+    log_info "Ensuring '${realm}' realm is active"
+
+    local active=$(call_nexus_api GET "/service/rest/v1/security/realms/active")
+
+    if echo "$active" | jq -e ".[] | select(. == \"$realm\")" >/dev/null; then
+        log_info "'${realm}' is already active"
+        return
+    fi
+
+    local updated=$(echo "$active" | jq ". + [\"$realm\"]")
+
+    call_nexus_api PUT "/service/rest/v1/security/realms/active" "$updated"
+    log_info "Activated '${realm}' successfully"
+}
+
 enable_anonymous_access() {
     log_info "Enabling anonymous access"
     call_nexus_api PUT "/service/rest/v1/security/anonymous" \
@@ -168,6 +185,7 @@ assign_role_to_anonymous_user() {
 change_admin_password
 enable_anonymous_access
 create_conan_repo
+enable_conan_realm
 define_anonymous_role
 assign_role_to_anonymous_user
 
