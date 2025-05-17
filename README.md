@@ -2,4 +2,6 @@
 
 ## Usage
 
-conan install . --output-folder=build --build=missing
+```docker compose up -d```
+
+Open project in devcontainer.
