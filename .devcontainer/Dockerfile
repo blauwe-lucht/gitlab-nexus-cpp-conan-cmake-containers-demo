@@ -1,25 +1,27 @@
-# Use Microsoft’s “bionic” devcontainer as a base (or ubuntu:22.04)
-ARG VARIANT="22.04"
-FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-${VARIANT}
+FROM almalinux:9
 
-# avoid prompts
-ENV DEBIAN_FRONTEND=noninteractive
+# install build essentials, cmake, git, python (for Conan), etc.
+RUN dnf install -y \
+      gcc gcc-c++ make \
+      cmake \
+      git \
+      python3 python3-pip \
+    && dnf clean all
 
-# install build-tools, CMake, Git, Python (for Conan)
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-    build-essential \
-    cmake \
-    git \
-    python3 \
-    python3-pip \
- && rm -rf /var/lib/apt/lists/*
+# Create the vscode user (UID/GID 1000), give it passwordless sudo
+RUN dnf install -y sudo \
+    && groupadd --gid 1000 vscode \
+    && useradd --uid 1000 --gid vscode -m vscode \
+    && echo "vscode ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/vscode \
+    && chmod 0440 /etc/sudoers.d/vscode \
+    && dnf clean all
 
-# install Conan (latest)
+# install Conan
 RUN pip3 install --no-cache-dir conan
 
-# set up a default Conan profile
+# bootstrap your Conan profile as needed
+USER vscode
 RUN conan profile detect
+USER root
 
-# ensure “conan” & “cmake” are in PATH
 ENV PATH="/usr/local/bin:${PATH}"
