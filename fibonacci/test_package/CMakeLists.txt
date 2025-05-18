@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.15)
 project(PackageTest CXX)
 
 find_package(fibonacci CONFIG REQUIRED)
-find_package(GTest CONFIG REQUIRED)
 
-add_executable(fibonacci_test src/fibonacci_tests.cpp)
-target_link_libraries(fibonacci_test PRIVATE fibonacci::fibonacci GTest::gtest_main)
+add_executable(fibonacci_test src/fibonacci_test.cpp)
+target_link_libraries(fibonacci_test PRIVATE fibonacci::fibonacci)

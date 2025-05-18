@@ -20,7 +20,10 @@ class fibonacciRecipe(ConanFile):
     default_options = {"shared": False, "fPIC": True}
 
     # Sources are located in the same place as this recipe, copy them to the recipe
-    exports_sources = "CMakeLists.txt", "src/*", "include/*"
+    exports_sources = "CMakeLists.txt", "src/*", "include/*", "test/*"
+
+    def requirements(self):
+        self.requires("gtest/1.14.0")
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -43,6 +46,7 @@ class fibonacciRecipe(ConanFile):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
+        cmake.test()
 
     def package(self):
         cmake = CMake(self)
