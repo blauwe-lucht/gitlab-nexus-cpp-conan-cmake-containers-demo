@@ -8,12 +8,15 @@ source "$SCRIPT_DIR/.env"
 NEXUS_URL="http://${NEXUS_HOST}:${NEXUS_PORT}"
 ROLE_ID="anonymous-deploy"
 ROLE_NAME="Anonymous Deploy Role"
-ROLE_DESC="Allow anonymous to deploy to maven-snapshots"
+ROLE_DESC="Allow anonymous to deploy to conan-hosted"
 ROLE_PRIVILEGES=(
     nx-repository-view-conan-conan-hosted-add
     nx-repository-view-conan-conan-hosted-edit
     nx-repository-view-conan-conan-hosted-read
 )
+CONAN_UPLOAD_USER="conan-upload"
+CONAN_UPLOAD_PASSWORD="Abcd1234!"
+
 
 # === Utilities ===
 
@@ -33,7 +36,7 @@ call_nexus_api() {
     local method="$1"
     local endpoint="$2"
     local data="${3:-}"
-    local curl_args=(-f -u "${NEXUS_ADMIN_USER}:${NEXUS_ADMIN_PASSWORD}" -H "Content-Type: application/json" -X "$method")
+    local curl_args=(-s -f -u "${NEXUS_ADMIN_USER}:${NEXUS_ADMIN_PASSWORD}" -H "Content-Type: application/json" -X "$method")
 
     if [[ -n "$data" ]]; then
         curl_args+=(-d "$data")
@@ -180,6 +183,40 @@ assign_role_to_anonymous_user() {
     call_nexus_api PUT "/service/rest/v1/security/users/anonymous" "$payload"
 }
 
+is_existing_user() {
+    local user_id="$1"
+    local status=$(curl -s -o /dev/null -w "%{http_code}" -u "${NEXUS_ADMIN_USER}:${NEXUS_ADMIN_PASSWORD}" \
+             -X GET "${NEXUS_URL}/service/rest/v1/security/users?userId=${user_id}" || true)
+    [[ "$status" == "200" ]]
+}
+
+define_conan_upload_user() {
+    log_info "Creating user '${CONAN_UPLOAD_USER}' with upload rights"
+    local payload
+    payload=$(jq -n \
+        --arg userId    "$CONAN_UPLOAD_USER" \
+        --arg pass      "$CONAN_UPLOAD_PASSWORD" \
+        --argjson roles "[\"$ROLE_ID\"]" \
+        '{
+            userId:       $userId,
+            firstName:    "Conan",
+            lastName:     "Uploader",
+            emailAddress: ($userId + "@example.com"),
+            password:     $pass,
+            source:       "default",
+            status:       "active",
+            roles:        $roles
+        }')
+
+    if is_existing_user ${CONAN_UPLOAD_USER}; then
+        log_info "User exists; updating '${CONAN_UPLOAD_USER}'"
+        call_nexus_api PUT "/service/rest/v1/security/users/${CONAN_UPLOAD_USER}" "$payload"
+    else
+        log_info "User not found; creating '${CONAN_UPLOAD_USER}'"
+        call_nexus_api POST "/service/rest/v1/security/users" "$payload"
+    fi
+}
+
 # === Main ===
 
 change_admin_password
@@ -188,5 +225,6 @@ create_conan_repo
 enable_conan_realm
 define_anonymous_role
 assign_role_to_anonymous_user
+define_conan_upload_user
 
 log_info "Done."
