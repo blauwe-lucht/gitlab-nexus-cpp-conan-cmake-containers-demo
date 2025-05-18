@@ -2,4 +2,5 @@
 
 set -xeuo pipefail
 
-conan create .
+conan build .
+build/Release/unit_tests
