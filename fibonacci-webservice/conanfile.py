@@ -22,7 +22,7 @@ class fibonacci_webserviceRecipe(ConanFile):
     def requirements(self):
         self.requires("cpp-httplib/0.19.0")
         self.requires("nlohmann_json/3.12.0")
-        self.requires("fibonacci/[>=1.0.0 <2.0.0]")
+        self.requires("fibonacci/1.0.1")
 
     def build_requirements(self):
         self.test_requires("gtest/1.14.0")
