@@ -19,3 +19,5 @@ is needed by the conan-upload user.
 - Add unit tests to fibonacci-webservice.
 - Add fibonacci-webservice cmdline flag to list version.
 - Add fibonacci-webservice test_package that shows version.
+- Add output of fibonacci unit tests to pipeline tests tab.
+- Autogenerate version from tag and commits since tag. (how to make this work with the demo repo?)
