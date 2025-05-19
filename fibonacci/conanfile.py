@@ -22,7 +22,7 @@ class fibonacciRecipe(ConanFile):
     # Sources are located in the same place as this recipe, copy them to the recipe
     exports_sources = "CMakeLists.txt", "src/*", "include/*", "test/*"
 
-    def requirements(self):
+    def build_requirements(self):
         self.requires("gtest/1.14.0")
 
     def config_options(self):
@@ -54,4 +54,3 @@ class fibonacciRecipe(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["fibonacci"]
-
