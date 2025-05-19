@@ -1,7 +1,7 @@
 #include "fibonacci.hpp"
 #include <stdexcept>
 
-int Fibonacci::compute(int n) {
+int Fibonacci::compute(int n) const {
     if (n < 0) {
         throw std::invalid_argument("Negative input not allowed");
     }

@@ -2,5 +2,5 @@
 
 class Fibonacci {
 public:
-    int compute(int n);
+    int compute(int n) const;
 };
