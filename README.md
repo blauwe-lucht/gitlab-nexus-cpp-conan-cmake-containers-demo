@@ -2,15 +2,19 @@
 
 ## Usage
 
-```docker compose up -d```
+- ```docker compose up -d```
+- ```./configure-nexus.sh```
+- Open the project in vscode in a devcontainer.
+- ```conan profile new default --detect```
 
-Open project in devcontainer.
 
 ## Notes
 
-conan remote add conan-proxy http://172.17.0.1:8081/repository/conan-proxy/ --insecure
-
-gtest requirement doesn't work (anymore) when compiler.cppstd=gnu17. Set it to 17.
+- During development the gtest requirement suddenly didn't work anymore. It was fixed when I changed the setting ```compiler.cppstd=gnu17``` to ```17``` in ~/.conan2/profiles/default.
+- Adding ```"~/.conan2/**"``` to .vscode/settings.json works, but might not be the most stable when
+multiple versions of a conan package are installed. Take a look at
+[this StackOverflow topic](https://stackoverflow.com/questions/58077908/linking-conan-include-to-vs-code/)
+for alternatives.
 
 ## TODO
 

@@ -24,6 +24,9 @@ class fibonacci_webserviceRecipe(ConanFile):
         self.requires("nlohmann_json/3.12.0")
         self.requires("fibonacci/[>=1.0.0 <2.0.0]")
 
+    def build_requirements(self):
+        self.test_requires("gtest/1.14.0")
+
     def layout(self):
         cmake_layout(self)
 
@@ -37,6 +40,7 @@ class fibonacci_webserviceRecipe(ConanFile):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
+        cmake.test()
 
     def package(self):
         cmake = CMake(self)
