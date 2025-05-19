@@ -103,3 +103,81 @@ TEST_F(FibonacciHandlerTest, FloatingPointNumber) {
     EXPECT_EQ(result.error_message, "Field 'number' must be an integer");
 }
 
+TEST_F(FibonacciHandlerTest, ValidComputation) {
+    // Arrange
+    int fibonacci_input = 10;
+    
+    // Act
+    FibonacciHandler::ComputationResult result = handler.computeFibonacci(fibonacci_input);
+    
+    // Assert
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.fibonacci_value, 55);
+}
+
+TEST_F(FibonacciHandlerTest, CreateSuccessResponse) {
+    // Arrange
+    int input_number = 10;
+    long fibonacci_value = 55;
+    
+    // Act
+    std::string response = handler.createSuccessResponse(input_number, fibonacci_value);
+    
+    // Assert
+    json parsed = json::parse(response);
+    EXPECT_EQ(parsed["number"], 10);
+    EXPECT_EQ(parsed["fibonacci"], 55);
+}
+
+TEST_F(FibonacciHandlerTest, CreateErrorResponse) {
+    // Arrange
+    std::string error_message = "Test error";
+    
+    // Act
+    std::string response = handler.createErrorResponse(error_message);
+    
+    // Assert
+    json parsed = json::parse(response);
+    EXPECT_EQ(parsed["error"], "Test error");
+}
+
+// Integration Tests
+TEST_F(FibonacciHandlerTest, EndToEndSuccess) {
+    // Arrange
+    std::string request_body = R"({"number": 6})";
+    
+    // Act
+    auto [status_code, response] = handler.handleRequest(request_body);
+    
+    // Assert
+    EXPECT_EQ(status_code, 200);
+    json parsed = json::parse(response);
+    EXPECT_EQ(parsed["number"], 6);
+    EXPECT_EQ(parsed["fibonacci"], 8);  // Assuming fibonacci(6) = 8
+}
+
+TEST_F(FibonacciHandlerTest, EndToEndValidationError) {
+    // Arrange
+    std::string request_body = R"({"number": -1})";
+    
+    // Act
+    auto [status_code, response] = handler.handleRequest(request_body);
+    
+    // Assert
+    EXPECT_EQ(status_code, 400);
+    json parsed = json::parse(response);
+    EXPECT_EQ(parsed["error"], "Number must be non-negative");
+}
+
+TEST_F(FibonacciHandlerTest, EndToEndInvalidJson) {
+    // Arrange
+    std::string invalid_request = "invalid";
+    
+    // Act
+    auto [status_code, response] = handler.handleRequest(invalid_request);
+    
+    // Assert
+    EXPECT_EQ(status_code, 400);
+    json parsed = json::parse(response);
+    EXPECT_TRUE(parsed["error"].get<std::string>().find("Invalid JSON") != std::string::npos);
+}

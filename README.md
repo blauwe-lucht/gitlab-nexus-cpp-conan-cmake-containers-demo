@@ -7,7 +7,6 @@
 - Open the project in vscode in a devcontainer.
 - ```conan profile new default --detect```
 
-
 ## Notes
 
 - During development the gtest requirement suddenly didn't work anymore. It was fixed when I changed the setting ```compiler.cppstd=gnu17``` to ```17``` in ~/.conan2/profiles/default.
@@ -15,6 +14,8 @@
 multiple versions of a conan package are installed. Take a look at
 [this StackOverflow topic](https://stackoverflow.com/questions/58077908/linking-conan-include-to-vs-code/)
 for alternatives.
+- Also, you have to ```Developer: Reload Window``` after downloading requirements before IntelliSense will pick them up.
+- Using version ranges in requirements is not working yet in Conan repositories in Nexus. So you always have to specify the exact version.
 
 ## TODO
 
