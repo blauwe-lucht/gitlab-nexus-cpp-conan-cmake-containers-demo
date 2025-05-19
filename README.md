@@ -18,10 +18,16 @@ for alternatives.
 
 ## TODO
 
+- Create GitLab repos for fibonacci and fibonacci-webservice.
+- Create pipeline for fibonacci.
+- Create pipeline for fibonacci-webservice.
 - Nexus roles are a bit of a mess: anonymous-deploy is probably not needed by the anonymous user, but
 is needed by the conan-upload user.
-- Add unit tests to fibonacci-webservice.
 - Add fibonacci-webservice cmdline flag to list version.
 - Add fibonacci-webservice test_package that shows version.
 - Add output of fibonacci unit tests to pipeline tests tab.
 - Autogenerate version from tag and commits since tag. (how to make this work with the demo repo?)
+- Make fibonacci-webservice port configurable through environment.
+- Add health check to service.
+- Add swagger UI to service.
+- Create fibonacci-webUI.
