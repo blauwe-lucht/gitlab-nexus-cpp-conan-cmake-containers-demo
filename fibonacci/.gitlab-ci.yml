@@ -1,0 +1,36 @@
+image: conan-cpp:latest
+
+stages:
+  - init
+  - build
+  - test
+  - deploy
+
+init:
+  stage: init
+  script:
+    - conan profile detect
+    - sed -i 's/compiler.cppstd=gnu17/compiler.cppstd=17/' ~/.conan2/profiles/default
+    - conan remote add conan-hosted http://nexus:8081/repository/conan-hosted/ --insecure
+    - conan remote login conan-hosted conan-upload -p "Abcd1234!"
+
+build:
+  stage: build
+  script:
+    - conan build .
+
+test:
+  stage: test
+  script:
+    - build/Release/unit_tests --gtest_output=xml:build/test-results.xml
+  artifacts:
+    reports:
+      junit: build/test-results.xml
+
+deploy:
+  stage: deploy
+  script:
+    - conan create .
+    - conan upload fibonacci -r conan-hosted
+  only:
+    - main
