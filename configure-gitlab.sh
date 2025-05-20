@@ -13,6 +13,7 @@ GITLAB_PAT_NAME="demo-token"
 GITLAB_PAT="gptdemo1234567890abcdef1234567890abcdefabcd"
 SCOPES=("api" "read_repository" "write_repository")
 SKIP_PAT=false
+GROUP_NAME="fibonacci"
 
 log_info() {
     echo "[INFO] $*"
@@ -89,24 +90,53 @@ call_gitlab_api() {
     curl "${curl_args[@]}" "${GITLAB_API_URL}${endpoint}"
 }
 
+ensure_gitlab_group() {
+    local group_name="$1"
+    log_info "Checking if group '$group_name' exists..."
+    local search_response
+    if ! search_response=$(call_gitlab_api GET "/groups?search=${group_name}"); then
+        log_error "Failed to query GitLab API for groups."
+        return 1
+    fi
+
+    if grep -q "\"name\":\"${group_name}\"" <<< "$search_response"; then
+        log_info "Group '$group_name' already exists."
+        # Extract group ID for later use
+        GROUP_ID=$(echo "$search_response" | grep -o '"id":[0-9]*' | head -1 | cut -d':' -f2)
+        log_info "Group ID: $GROUP_ID"
+    else
+        log_info "Creating group '$group_name'..."
+        local response
+        response=$(call_gitlab_api POST "/groups" "{\"name\": \"${group_name}\", \"path\": \"${group_name}\"}")
+        if [[ -n "$response" ]]; then
+            GROUP_ID=$(echo "$response" | grep -o '"id":[0-9]*' | head -1 | cut -d':' -f2)
+            log_info "Created group '$group_name' with ID $GROUP_ID."
+        else
+            log_error "Failed to create group '$group_name'."
+            return 1
+        fi
+    fi
+}
+
 ensure_gitlab_project() {
     local project_name="$1"
+    local group_name="$2"
 
-    log_info "Checking if project '$project_name' exists..."
+    log_info "Checking if project '$project_name' exists in group '$group_name'..."
     local search_response
-    if ! search_response=$(call_gitlab_api GET "/projects?search=${project_name}"); then
-        log_error "Failed to query GitLab API."
+    if ! search_response=$(call_gitlab_api GET "/groups/${GROUP_ID}/projects?search=${project_name}"); then
+        log_error "Failed to query GitLab API for projects in group."
         return 1
     fi
 
     if grep -q "\"name\":\"${project_name}\"" <<< "$search_response"; then
-        log_info "Project '$project_name' already exists."
+        log_info "Project '$project_name' already exists in group '$group_name'."
     else
-        log_info "Creating project '$project_name'..."
-        if call_gitlab_api POST "/projects" "{\"name\": \"${project_name}\"}"; then
-            log_info "Created project '$project_name'."
+        log_info "Creating project '$project_name' in group '$group_name'..."
+        if call_gitlab_api POST "/projects" "{\"name\": \"${project_name}\", \"namespace_id\": ${GROUP_ID}}"; then
+            log_info "Created project '$project_name' in group '$group_name'."
         else
-            log_error "Failed to create project '$project_name'."
+            log_error "Failed to create project '$project_name' in group."
             return 1
         fi
     fi
@@ -114,10 +144,11 @@ ensure_gitlab_project() {
 
 prepare_and_push_repo() {
     local project="$1"
+    local group_name="$2"
     local stage_dir="${SCRIPT_DIR}/_gitlab_push/${project}"
-    local remote_url="http://root:${GITLAB_PAT}@${GITLAB_HOST}:${GITLAB_PORT}/root/${project}.git"
+    local remote_url="http://root:${GITLAB_PAT}@${GITLAB_HOST}:${GITLAB_PORT}/${group_name}/${project}.git"
 
-    log_info "Preparing subdir '$project' for GitLab push to '$project'..."
+    log_info "Preparing subdir '$project' for GitLab push to '$group_name/$project'..."
 
     mkdir -p "$(dirname "$stage_dir")"
 
@@ -148,7 +179,9 @@ if [[ "$SKIP_PAT" == false ]]; then
 else
     log_info "Skipping personal access token creation."
 fi
-ensure_gitlab_project "fibonacci"
-prepare_and_push_repo "fibonacci"
-ensure_gitlab_project "fibonacci-webservice"
-prepare_and_push_repo "fibonacci-webservice"
+
+ensure_gitlab_group "${GROUP_NAME}"
+ensure_gitlab_project "fibonacci" "${GROUP_NAME}"
+prepare_and_push_repo "fibonacci" "${GROUP_NAME}"
+ensure_gitlab_project "fibonacci-webservice" "${GROUP_NAME}"
+prepare_and_push_repo "fibonacci-webservice" "${GROUP_NAME}"
