@@ -4,7 +4,7 @@ stages:
   - init
   - build
   - test
-  - deploy
+  - upload_to_nexus
 
 init:
   stage: init
@@ -34,8 +34,8 @@ test:
     reports:
       junit: build/test-results.xml
 
-deploy:
-  stage: deploy
+upload_to_nexus:
+  stage: upload_to_nexus
   script:
     - conan create .
     - conan upload fibonacci -r conan-hosted
