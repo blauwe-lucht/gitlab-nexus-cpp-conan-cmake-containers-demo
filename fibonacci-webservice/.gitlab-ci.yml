@@ -1,0 +1,43 @@
+image: conan-cpp:latest
+
+stages:
+  - init
+  - build
+  - test
+  - build_image
+
+init:
+  stage: init
+  script:
+    - conan profile detect || echo "Profile already exists, continuing..."
+    - sed -i 's/compiler.cppstd=gnu17/compiler.cppstd=17/' ~/.conan2/profiles/default
+    - if ! conan remote list | grep -q "conan-hosted"; then
+        conan remote add conan-hosted http://nexus.local:8081/repository/conan-hosted/ --insecure;
+      else
+        echo "Remote conan-hosted already exists, skipping add";
+      fi
+    - conan remote login conan-hosted conan-upload -p "Abcd1234!"
+
+build:
+  stage: build
+  script:
+    - conan build .
+  artifacts:
+    paths:
+      - build/Release/unit_tests
+      - build/Release/fibonacci-webservice
+
+test:
+  stage: test
+  script:
+    - build/Release/unit_tests --gtest_output=xml:build/test-results.xml
+  artifacts:
+    reports:
+      junit: build/test-results.xml
+
+build_image:
+  stage: build_image
+  script:
+    - ./build-image.sh
+  only:
+    - main
