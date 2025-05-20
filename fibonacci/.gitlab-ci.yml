@@ -9,9 +9,13 @@ stages:
 init:
   stage: init
   script:
-    - conan profile detect
+    - conan profile detect || echo "Profile already exists, continuing..."
     - sed -i 's/compiler.cppstd=gnu17/compiler.cppstd=17/' ~/.conan2/profiles/default
-    - conan remote add conan-hosted http://nexus.local:8081/repository/conan-hosted/ --insecure
+    - if ! conan remote list | grep -q "conan-hosted"; then
+        conan remote add conan-hosted http://nexus.local:8081/repository/conan-hosted/ --insecure;
+      else
+        echo "Remote conan-hosted already exists, skipping add";
+      fi
     - conan remote login conan-hosted conan-upload -p "Abcd1234!"
 
 build:
