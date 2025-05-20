@@ -50,6 +50,7 @@ docker exec -i "$RUNNER_CONTAINER" gitlab-runner register --non-interactive \
   --docker-extra-hosts "nexus.local:host-gateway" \
   --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" \
   --docker-volumes "/cache" \
-  --docker-volumes "/root/.conan2"
+  --docker-volumes "/root/.conan2" \
+  --docker-privileged
 
 echo "[INFO] Runner registered successfully."
