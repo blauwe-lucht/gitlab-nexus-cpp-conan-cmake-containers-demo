@@ -3,3 +3,6 @@ build/
 
 # CMake user files
 CMakeUserPresets.json
+
+# Git repos for GitLab
+/_gitlab_push
