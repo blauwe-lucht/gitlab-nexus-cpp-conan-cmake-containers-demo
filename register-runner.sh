@@ -38,7 +38,7 @@ echo "[INFO] Registering GitLab Runner..."
 #   from within the container and from the host.
 # --docker-volumes "/var/run/docker.sock:/var/run/docker.sock": Needed to be able to build Docker images.
 # --docker-volumes "/cache": Needed for GitLab pipeline caching.
-# --docker-volumes "/root/.conan2": Needed to greatly reduce Conan downloading.
+# --docker-volumes "/root/.conan2": Needed to reduce Conan downloading.
 docker exec -i "$RUNNER_CONTAINER" gitlab-runner register --non-interactive \
   --url "http://gitlab.local:${GITLAB_PORT}" \
   --registration-token "$REGISTRATION_TOKEN" \
