@@ -22,7 +22,6 @@ build:
   stage: build
   script:
     - conan build .
-    - ls -al build/Release
   artifacts:
     paths:
       - build/Release/unit_tests
@@ -30,7 +29,6 @@ build:
 test:
   stage: test
   script:
-    - ls -al build/Release
     - build/Release/unit_tests --gtest_output=xml:build/test-results.xml
   artifacts:
     reports:
