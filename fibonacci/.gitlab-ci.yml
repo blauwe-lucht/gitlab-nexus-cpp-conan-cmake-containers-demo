@@ -27,6 +27,7 @@ build:
 test:
   stage: test
   script:
+    - ls -al build/Release
     - build/Release/unit_tests --gtest_output=xml:build/test-results.xml
   artifacts:
     reports:
