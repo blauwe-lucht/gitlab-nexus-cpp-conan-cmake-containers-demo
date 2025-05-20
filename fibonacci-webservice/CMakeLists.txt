@@ -19,6 +19,11 @@ find_package(nlohmann_json REQUIRED)
 find_package(httplib REQUIRED)
 find_package(fibonacci CONFIG REQUIRED)
 
+# Pass the version from Conan
+if(DEFINED __APP_VERSION__)
+    target_compile_definitions(fibonacci-webservice PRIVATE __APP_VERSION__="${__APP_VERSION__}")
+endif()
+
 add_executable(fibonacci-webservice src/main.cpp ${SHARED_SOURCES})
 
 target_link_libraries(fibonacci-webservice PRIVATE ${LIBRARIES})

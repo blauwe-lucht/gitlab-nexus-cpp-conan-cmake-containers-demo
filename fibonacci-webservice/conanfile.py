@@ -34,6 +34,7 @@ class fibonacci_webserviceRecipe(ConanFile):
         deps = CMakeDeps(self)
         deps.generate()
         tc = CMakeToolchain(self)
+        tc.preprocessor_definitions["__APP_VERSION__"] = f'"{self.version}"'
         tc.generate()
 
     def build(self):
