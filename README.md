@@ -35,3 +35,4 @@ is needed by the conan-upload user.
 - Add Ansible scripts to deploy fibonacci-webservice and ficonacci-webUI containers.
 - Make usage of CI image safer, it's using docker socket (see register-runner.sh).
 - Put Nexus conan-upload user name and password in pipeline secrets.
+- setup.sh doesn't work the first time, you have to wait a bit and run it again because Nexus isn't ready yet.
