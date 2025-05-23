@@ -5,7 +5,6 @@ stages:
   - build
   - test
   - build_image
-  - upload_image
 
 init:
   stage: init
@@ -41,12 +40,5 @@ build_image:
   script:
     - ./build-image.sh
     - docker ps
-  only:
-    - main
-
-upload_image:
-  stage: upload_image
-  script:
-    - docker push --all-tags registry:5000/fibonacci-webservice
   only:
     - main
