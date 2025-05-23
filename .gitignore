@@ -6,3 +6,6 @@ CMakeUserPresets.json
 
 # Git repos for GitLab
 /_gitlab_push
+
+# Vagrant files
+/.vagrant
