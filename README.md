@@ -1,11 +1,27 @@
 # Demo of C++ development process using GitLab, Nexus, Harbour, Conan, CMake and containers
 
+## Prerequisites
+
+You need to have some entries in your hosts file to make everything work correctly:
+
+```hosts
+127.0.0.1               gitlab.local
+127.0.0.1               nexus.local
+127.0.0.1               registry.local
+```
+
+You should not have anything listening on ports 8080, 8081 and port 5000.
+
 ## Usage
 
 - ```docker compose up -d```
-- ```./configure-nexus.sh```
+- Wait until the gitlab container is healthy.
+- ```./setup.sh```
 - Open the project in vscode in a devcontainer.
-- ```conan profile new default --detect```
+- Make changes to sources in _gitlab_push and push them.
+- Watch the effect in GitLab: http://gitlab.local:8080, user ```root```, password ```Abcd1234!```
+- The library will end up in Nexus: http://nexus.local:8081, user ```admin```, password ```Abcd1234!```
+- The container image will end up in the Docker Registry: http://localhost:8083
 
 ## Notes
 

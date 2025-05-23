@@ -48,6 +48,7 @@ docker exec -i "$RUNNER_CONTAINER" gitlab-runner register --non-interactive \
   --docker-pull-policy "if-not-present" \
   --docker-extra-hosts "gitlab.local:host-gateway" \
   --docker-extra-hosts "nexus.local:host-gateway" \
+  --docker-extra-hosts "registry.local:host-gateway" \
   --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" \
   --docker-volumes "/cache" \
   --docker-volumes "/root/.conan2" \
