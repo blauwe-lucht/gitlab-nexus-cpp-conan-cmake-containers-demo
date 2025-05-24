@@ -10,7 +10,7 @@ You need to have some entries in your hosts file to make everything work correct
 127.0.0.1               registry.local
 ```
 
-You should not have anything listening on ports 8080, 8081 and port 5000.
+You should not have anything listening on ports 8080, 8081, 8083 and port 5000.
 
 ## Usage
 
@@ -35,20 +35,17 @@ for alternatives.
 
 ## TODO
 
-- Create pipeline for fibonacci-webservice.
 - Nexus roles are a bit of a mess: anonymous-deploy is probably not needed by the anonymous user, but
 is needed by the conan-upload user.
-- Add output of fibonacci unit tests to pipeline tests tab.
 - Autogenerate version from tag and commits since tag. (how to make this work with the demo repo?)
 - Make fibonacci-webservice port configurable through environment.
 - Add health check to service.
 - Add swagger UI to service.
 - Create fibonacci-webUI.
-- Add Harbour container.
-- Configure Harbour.
-- Upload fibonacci-webservice image to Harbour.
-- Add container to deploy to.
+- Add VMs to deploy to.
 - Add Ansible scripts to deploy fibonacci-webservice and ficonacci-webUI containers.
-- Make usage of CI image safer, it's using docker socket (see register-runner.sh).
 - Put Nexus conan-upload user name and password in pipeline secrets.
-- setup.sh doesn't work the first time, you have to wait a bit and run it again because Nexus isn't ready yet.
+- setup.sh doesn't work from a clean start, you have to wait a bit and run it again because Nexus isn't ready yet.
+- Add devcontainers to fibonacci, fibonacci-webservice and fibonacci-webui so they can be edited like a developer normally would.
+- Figure out how to build directly from vscode.
+- Figure out how to run unit tests directly from vscode.
