@@ -11,13 +11,16 @@ set(UNIT_TEST_SOURCES
 
 set(LIBRARIES
     nlohmann_json::nlohmann_json
-    httplib::httplib
+    oatpp::oatpp
+    oatpp::oatpp-swagger
     fibonacci::fibonacci
 )
 
 find_package(nlohmann_json REQUIRED)
 find_package(httplib REQUIRED)
 find_package(fibonacci CONFIG REQUIRED)
+find_package(oatpp REQUIRED)
+find_package(oatpp-swagger REQUIRED)
 
 # Pass the version from Conan
 if(DEFINED __APP_VERSION__)

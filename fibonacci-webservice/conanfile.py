@@ -20,7 +20,8 @@ class fibonacci_webserviceRecipe(ConanFile):
     exports_sources = "CMakeLists.txt", "src/*"
 
     def requirements(self):
-        self.requires("cpp-httplib/0.19.0")
+        self.requires("oatpp/1.3.0")
+        self.requires("oatpp-swagger/1.3.0")
         self.requires("nlohmann_json/3.12.0")
         self.requires("fibonacci/1.0.1")
 

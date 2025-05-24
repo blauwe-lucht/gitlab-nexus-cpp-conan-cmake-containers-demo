@@ -2,5 +2,5 @@
 
 set -xeuo pipefail
 
-conan build .
+conan build . --build=missing
 build/Release/unit_tests
