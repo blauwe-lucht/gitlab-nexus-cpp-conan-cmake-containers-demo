@@ -1,11 +1,22 @@
 image: conan-cpp:latest
 
 stages:
-  - build_image
+  - build_and_upload
+  - deploy_tst
 
-build_image:
-  stage: build_image
+build_and_upload:
+  stage: build_and_upload
   script:
     - ./build-image.sh
+  only:
+    - main
+
+deploy_tst:
+  stage: deploy_tst
+  image: ansible:latest
+  script:
+    - chmod -R go-w ansible
+    - cd ansible
+    - ansible-playbook playbook.yml -v --limit tst
   only:
     - main

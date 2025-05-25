@@ -1,0 +1,19 @@
+---
+- name: Deploy Fibonacci WebUI with Docker
+  hosts: all
+  vars:
+    fibonacci_webui_version: "{{ lookup('file', 'VERSION') | trim }}"
+  tasks:
+    - name: Start fibonacci-webui container
+      containers.podman.podman_container:
+        name: fibonacci-webui
+        image: registry.local:5000/fibonacci-webui:{{ fibonacci_webui_version }}
+        network: fibonacci-network
+        state: started
+        restart_policy: unless-stopped
+        detach: true
+        tls_verify: false
+        publish:
+            - "80:80"
+          env:
+            FIBONACCI_API_URL: "http://fibonacci-webservice:27372"
