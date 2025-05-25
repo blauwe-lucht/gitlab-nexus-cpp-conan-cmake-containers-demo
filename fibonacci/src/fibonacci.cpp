@@ -6,10 +6,15 @@ int Fibonacci::compute(int n) const {
         throw std::invalid_argument("Negative input not allowed");
     }
 
-    if (n <= 1)
-    {
+    if (n <= 1) {
         return n;
     }
-    
-    return compute(n - 1) + compute(n - 2);
+
+    int prev = 0, curr = 1;
+    for (int i = 2; i <= n; ++i) {
+        int next = prev + curr;
+        prev = curr;
+        curr = next;
+    }
+    return curr;
 }
