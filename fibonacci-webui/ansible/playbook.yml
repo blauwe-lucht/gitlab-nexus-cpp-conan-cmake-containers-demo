@@ -15,5 +15,5 @@
         tls_verify: false
         publish:
             - "80:80"
-          env:
-            FIBONACCI_API_URL: "http://fibonacci-webservice:27372"
+        env:
+          FIBONACCI_API_URL: "http://fibonacci-webservice:27372"
