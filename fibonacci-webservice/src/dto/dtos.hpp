@@ -12,11 +12,11 @@ class FibonacciRequestDto : public oatpp::DTO {
     
     DTO_INIT(FibonacciRequestDto, DTO)
     
-    DTO_FIELD_INFO(n) {
+    DTO_FIELD_INFO(number) {
         info->description = "The position in the Fibonacci sequence to calculate";
         info->required = true;
     }
-    DTO_FIELD(Int32, n);
+    DTO_FIELD(Int32, number);
     
 };
 
@@ -27,15 +27,15 @@ class FibonacciResponseDto : public oatpp::DTO {
     
     DTO_INIT(FibonacciResponseDto, DTO)
     
-    DTO_FIELD_INFO(n) {
+    DTO_FIELD_INFO(number) {
         info->description = "The position in the Fibonacci sequence";
     }
-    DTO_FIELD(Int32, n);
+    DTO_FIELD(Int32, number);
     
-    DTO_FIELD_INFO(result) {
+    DTO_FIELD_INFO(fibonacci) {
         info->description = "The Fibonacci number at position n";
     }
-    DTO_FIELD(Int64, result);
+    DTO_FIELD(Int64, fibonacci);
     
 };
 
