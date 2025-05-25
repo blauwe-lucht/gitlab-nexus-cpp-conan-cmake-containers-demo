@@ -42,6 +42,7 @@ public:
         info->addResponse<Object<ErrorResponseDto>>(Status::CODE_500, "application/json", "Internal server error");
         info->addTag("Fibonacci");
     }
+    ADD_CORS(calculateFibonacci)
     ENDPOINT("POST", "/fibonacci", calculateFibonacci,
              BODY_DTO(Object<FibonacciRequestDto>, dto)) {
         
