@@ -1,6 +1,12 @@
-# Demo of C++ development process using GitLab, Nexus, Harbour, Conan, CMake and containers
+# Demo of C++ development process using GitLab, Nexus, Conan, CMake and containers
 
 ## Prerequisites
+
+- Some Linux (tested with Kubuntu 22.04)
+- VirtualBox (tested with 7.0.20)
+- Vagrant (tested with 2.4.5)
+- Docker (tested with 28.1.1)
+- Visual Studio Code (tested with 1.100.2)
 
 You need to have some entries in your hosts file to make everything work correctly:
 
@@ -41,8 +47,6 @@ for alternatives.
 is needed by the conan-upload user.
 - Autogenerate version from tag and commits since tag. (how to make this work with the demo repo?)
 - Make fibonacci-webservice port configurable through environment.
-- Create pipeline for fibonacci-webUI.
-- Add VMs to deploy to.
 - Add Ansible scripts to deploy fibonacci-webservice and ficonacci-webUI containers.
 - Put Nexus conan-upload user name and password in pipeline secrets.
 - setup.sh doesn't work from a clean start, you have to wait a bit and run it again because Nexus isn't ready yet.
