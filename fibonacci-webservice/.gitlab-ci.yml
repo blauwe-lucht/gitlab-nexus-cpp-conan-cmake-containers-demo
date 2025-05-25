@@ -39,6 +39,5 @@ build_image:
   stage: build_image
   script:
     - ./build-image.sh
-    - docker ps
   only:
     - main
