@@ -3,7 +3,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 
 class fibonacci_webserviceRecipe(ConanFile):
     name = "fibonacci-webservice"
-    version = "1.0.2"
+    version = "1.0.3"
     package_type = "application"
 
     # Optional metadata
