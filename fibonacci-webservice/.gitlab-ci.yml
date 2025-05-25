@@ -5,6 +5,7 @@ stages:
   - build
   - test
   - build_and_upload_image
+  - deploy_tst
 
 init:
   stage: init
@@ -41,3 +42,10 @@ build_and_upload_image:
     - ./build-image.sh
   only:
     - main
+
+deploy_tst:
+  stage: deploy_tst
+  image: ansible:latest
+  script:
+    - cd ansible
+    - ansible-playbook playbook.yml -v

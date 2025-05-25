@@ -1,0 +1,17 @@
+---
+- name: Deploy Fibonacci Webservice with Docker
+  hosts: all
+  vars:
+    fibonacci_webservice_version: "1.0.3"
+  tasks:
+    - name: Start fibonacci-webservice container
+      containers.podman.podman_container:
+        name: fibonacci-webservice
+        image: registry.local:5000/fibonacci-webservice:{{ fibonacci_webservice_version }}
+        network: fibonacci-network
+        state: started
+        restart_policy: unless-stopped
+        detach: true
+        tls_verify: false
+        publish:
+          - "27372:27372"
