@@ -18,6 +18,9 @@ WORKDIR /app
 # Copy the binary from build directory
 COPY build/Release/fibonacci-webservice /app/fibonacci-webservice
 
+# Copy oatpp-swagger resources
+COPY oatpp-swagger /app/oatpp-swagger
+
 # Make the binary executable
 RUN chmod +x /app/fibonacci-webservice
 
@@ -29,6 +32,9 @@ USER fibonacci
 
 # Expose the port the service runs on
 EXPOSE 27372
+
+# Point to the Swagger resources
+ENV OATPP_SWAGGER_RES_PATH=/app/oatpp-swagger/res
 
 # Set the entrypoint to run the service
 ENTRYPOINT ["/app/fibonacci-webservice"]
