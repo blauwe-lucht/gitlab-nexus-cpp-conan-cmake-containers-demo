@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fibonacci Web UI</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 2em;
+                background: #f9f9f9;
+            }
+            h1 {
+                color: #2c3e50;
+            }
+            #result {
+                margin-top: 1em;
+                font-weight: bold;
+            }
+            footer {
+                margin-top: 2em;
+                color: #888;
+                font-size: 0.9em;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Fibonacci Calculator</h1>
+        <input type="number" id="fibInput" placeholder="Enter a number" min="0" />
+        <button onclick="calculate()">Calculate</button>
+        <div id="result"></div>
+        <footer>
+            Version: __VERSION__
+        </footer>
+        <script>
+            const API_URL = "__API_URL__";
+
+            function calculate() {
+                const n = document.getElementById('fibInput').value;
+                if (n === "" || isNaN(n) || n < 0) {
+                    document.getElementById('result').innerText = "Please enter a non-negative integer.";
+                    return;
+                }
+                fetch(`${API_URL}/fibonacci`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ number: Number(n) })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error("Server error");
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.fibonacci !== undefined) {
+                        document.getElementById('result').innerText = 'Result: ' + data.fibonacci;
+                    } else if (data.error) {
+                        document.getElementById('result').innerText = 'Error: ' + data.error;
+                    } else {
+                        document.getElementById('result').innerText = 'Unexpected response';
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('result').innerText = 'Error: ' + err;
+                });
+            }
+        </script>
+    </body>
+</html>

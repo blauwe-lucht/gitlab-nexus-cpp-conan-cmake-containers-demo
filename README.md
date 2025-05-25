@@ -41,7 +41,7 @@ for alternatives.
 is needed by the conan-upload user.
 - Autogenerate version from tag and commits since tag. (how to make this work with the demo repo?)
 - Make fibonacci-webservice port configurable through environment.
-- Create fibonacci-webUI.
+- Create pipeline for fibonacci-webUI.
 - Add VMs to deploy to.
 - Add Ansible scripts to deploy fibonacci-webservice and ficonacci-webUI containers.
 - Put Nexus conan-upload user name and password in pipeline secrets.
@@ -49,3 +49,4 @@ is needed by the conan-upload user.
 - Add devcontainers to fibonacci, fibonacci-webservice and fibonacci-webui so they can be edited like a developer normally would.
 - Figure out how to build directly from vscode.
 - Figure out how to run unit tests directly from vscode.
+- Add structured logging.
