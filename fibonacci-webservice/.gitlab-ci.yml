@@ -4,7 +4,7 @@ stages:
   - init
   - build
   - test
-  - build_image
+  - build_and_upload_image
 
 init:
   stage: init
@@ -35,8 +35,8 @@ test:
     reports:
       junit: build/test-results.xml
 
-build_image:
-  stage: build_image
+build_and_upload_image:
+  stage: build_and_upload_image
   script:
     - ./build-image.sh
   only:
