@@ -50,4 +50,4 @@ deploy_tst:
     - ls -al ansible
     - chmod -R go-w ansible
     - cd ansible
-    - ansible-playbook playbook.yml -v
+    - ansible-playbook playbook.yml -v --limit tst
