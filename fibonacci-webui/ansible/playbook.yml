@@ -16,4 +16,4 @@
         publish:
             - "80:80"
         env:
-          FIBONACCI_API_URL: "http://fibonacci-webservice:27372"
+          FIBONACCI_API_URL: "http://192.168.8.18:27372"
