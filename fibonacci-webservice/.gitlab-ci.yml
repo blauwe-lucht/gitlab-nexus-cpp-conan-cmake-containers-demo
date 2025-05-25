@@ -21,7 +21,7 @@ init:
 build:
   stage: build
   script:
-    - conan build .
+    - conan build . --build=missing
   artifacts:
     paths:
       - build/Release/unit_tests
