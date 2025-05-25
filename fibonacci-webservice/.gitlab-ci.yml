@@ -47,5 +47,7 @@ deploy_tst:
   stage: deploy_tst
   image: ansible:latest
   script:
+    - ls -al ansible
+    - chmod -R go-w ansible
     - cd ansible
     - ansible-playbook playbook.yml -v
