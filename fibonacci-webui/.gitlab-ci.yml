@@ -1,0 +1,11 @@
+image: conan-cpp:latest
+
+stages:
+  - build_image
+
+build_image:
+  stage: build_image
+  script:
+    - ./build-image.sh
+  only:
+    - main
