@@ -48,6 +48,6 @@ deploy_tst:
   environment: tst
   image: ansible:latest
   script:
-    - deploy-to.sh tst
+    - ./deploy-to.sh tst
   only:
     - main
