@@ -18,7 +18,7 @@ init:
         echo "Remote conan-hosted already exists, skipping add";
       fi
     - conan remote login conan-hosted conan-upload -p "Abcd1234!"
-
+  
 build:
   stage: build
   script:
@@ -45,10 +45,9 @@ build_and_upload_image:
 
 deploy_tst:
   stage: deploy_tst
+  environment: tst
   image: ansible:latest
   script:
-    - chmod -R go-w ansible
-    - cd ansible
-    - ansible-playbook playbook.yml -v --limit tst
+    - deploy-to.sh tst
   only:
     - main

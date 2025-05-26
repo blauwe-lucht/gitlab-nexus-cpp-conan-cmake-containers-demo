@@ -55,3 +55,4 @@ is needed by the conan-upload user.
 - Figure out how to run unit tests directly from vscode.
 - Add structured logging.
 - Figure out how to handle branches in the pipeline (don't upload/add suffix to version).
+- Add test coverage.
