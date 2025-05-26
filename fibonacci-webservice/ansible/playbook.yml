@@ -3,14 +3,12 @@
   hosts: all
   tasks:
     - name: Start fibonacci-webservice container
-      containers.podman.podman_container:
+      community.docker.docker_container:
         name: fibonacci-webservice
         # fibonacci_webservice_version should be defined on the cmdline.
         image: registry.local:5000/fibonacci-webservice:{{ fibonacci_webservice_version }}
-        network: fibonacci-network
         state: started
         restart_policy: unless-stopped
         detach: true
-        tls_verify: false
-        publish:
+        published_ports:
           - "27372:27372"
