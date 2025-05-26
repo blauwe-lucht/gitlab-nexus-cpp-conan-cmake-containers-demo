@@ -1,7 +1,7 @@
 ---
 services:
   gitlab:
-    image: gitlab/gitlab-ce:17.11.2-ce.0
+    image: gitlab/gitlab-ce:18.0.1-ce.0
     hostname: ${GITLAB_HOST}
     container_name: gitlab
     restart: unless-stopped
@@ -16,22 +16,18 @@ services:
       # Set external_url to the correct port so all links will be correct (for example link to runner) &
       # disable cluster mode to avoid more memory usage
       # (https://docs.gitlab.com/administration/operations/puma/#disable-puma-clustered-mode-in-memory-constrained-environments) &
-      # let puma listen on non-default port (which happens to be the same as our external_url port) &
-      # disable Rack Attack to prevent 403 responses when the runner is checking for jobs:
+      # let puma listen on non-default port (which happens to be the same as our external_url port):
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://${GITLAB_HOST}:${GITLAB_PORT}'
         puma['worker_processes'] = 0
         puma['port'] = 8081
-        gitlab_rails['rack_attack_git_basic_auth'] = {
-           'enabled' => false,
-        }
     volumes:
       - gitlab_config:/etc/gitlab
       - gitlab_logs:/var/log/gitlab
       - gitlab_data:/var/opt/gitlab
 
   gitlab-runner:
-    image: gitlab/gitlab-runner:v17.11.1
+    image: gitlab/gitlab-runner:v18.0.1
     container_name: gitlab-runner
     depends_on:
       - gitlab
