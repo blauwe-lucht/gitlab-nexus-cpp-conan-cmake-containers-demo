@@ -10,7 +10,7 @@ fi
 TARGET_ENV="$1"
 
 cd "$(dirname "$0")"
-VERSION=$(get-version.sh)
+VERSION=$(./get-version.sh)
 
 # Ansible doesn't like to run in a world-writable directory, so remove those write bits.
 chmod -R o-w ansible

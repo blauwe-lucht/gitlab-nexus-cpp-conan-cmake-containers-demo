@@ -9,3 +9,6 @@ CMakeUserPresets.json
 
 # Vagrant files
 .vagrant/
+
+# Ansible files
+ansible.log
