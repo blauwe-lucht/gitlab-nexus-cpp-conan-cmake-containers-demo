@@ -16,7 +16,7 @@ You need to have some entries in your hosts file to make everything work correct
 127.0.0.1               registry.local
 ```
 
-You should not have anything listening on ports 8080, 8081, 8083 and port 5000.
+You should not have anything listening on ports 8080 (GitLab), 8081 (Nexus), 8083 (Registry UI) and port 5000 (Registry).
 
 ## Usage
 

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 docker compose up -d
-./build-ci-image.sh
-./configure-nexus.sh
+./build-pipeline-images.sh
 ./configure-gitlab.sh
+./configure-nexus.sh
 ./register-runner.sh
