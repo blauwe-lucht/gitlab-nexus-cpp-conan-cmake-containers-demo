@@ -3,14 +3,12 @@
 set -euo pipefail
 
 # Cmdline argument is the target environment.
-if [ $# -ne 1 ]; then
+if [ $# -ne 2 ]; then
     echo "Usage: $0 <environment>"
     exit 1
 fi
 TARGET_ENV="$1"
-
-cd "$(dirname "$0")"
-VERSION=$(./get-version.sh)
+VERSION="$2"
 
 # Ansible doesn't like to run in a world-writable directory, so remove those write bits.
 chmod -R o-w ansible

@@ -12,7 +12,7 @@ stages:
 init:
   stage: init
   script:
-    echo "VERSION=$(./get-version.sh)" > build.env
+    - echo "VERSION=$(./get-version.sh)" > build.env
   artifacts:
     reports:
       dotenv: build.env

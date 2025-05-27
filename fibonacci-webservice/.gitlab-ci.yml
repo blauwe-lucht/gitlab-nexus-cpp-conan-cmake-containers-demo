@@ -18,6 +18,10 @@ init:
         echo "Remote conan-hosted already exists, skipping add";
       fi
     - conan remote login conan-hosted conan-upload -p "Abcd1234!"
+    - echo "VERSION=$(./get-version.sh)" > build.env
+  artifacts:
+    reports:
+      dotenv: build.env
   
 build:
   stage: build
@@ -48,6 +52,6 @@ deploy_tst:
   environment: tst
   image: ansible:latest
   script:
-    - ./deploy-to.sh tst
+    - ./deploy-to.sh tst $VERSION
   only:
     - main
