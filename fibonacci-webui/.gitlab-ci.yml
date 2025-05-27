@@ -1,5 +1,9 @@
 image: conan-cpp:latest
 
+# We need to get the full history so we can automatically generate a version:
+variables:
+  GIT_DEPTH: "0"
+
 stages:
   - build_and_upload
   - deploy_tst
