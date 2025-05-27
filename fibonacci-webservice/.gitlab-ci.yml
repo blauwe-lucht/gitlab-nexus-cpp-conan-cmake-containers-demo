@@ -22,6 +22,8 @@ init:
         echo "Remote conan-hosted already exists, skipping add";
       fi
     - conan remote login conan-hosted conan-upload -p "Abcd1234!"
+    # SAMTEST
+    - git tag --sort=-creatordate --list 'webservice-*'
     - echo "VERSION=$(./get-version.sh)" > build.env
   artifacts:
     reports:
