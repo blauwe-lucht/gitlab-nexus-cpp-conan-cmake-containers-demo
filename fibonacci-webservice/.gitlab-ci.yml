@@ -24,6 +24,7 @@ init:
     - conan remote login conan-hosted conan-upload -p "Abcd1234!"
     # SAMTEST
     - git tag --sort=-creatordate --list 'webservice-*'
+    - git rev-list "webservice-v1.1"..HEAD
     - echo "VERSION=$(./get-version.sh)" > build.env
   artifacts:
     reports:
