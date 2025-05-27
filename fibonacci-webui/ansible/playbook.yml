@@ -11,7 +11,7 @@
         restart_policy: unless-stopped
         detach: true
         published_ports:
-          - "80:80"
+          - "80:8080"
         env:
           # This is the URL to the webservice from the user's browser, NOT from the webui backend.
           # Yes, this is ugly, but to keep the demo simple we don't have a proper backend for the webui.
