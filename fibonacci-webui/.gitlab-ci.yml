@@ -11,14 +11,6 @@ stages:
 build_and_upload:
   stage: build_and_upload
   script:
-    - git show-ref --tags
-    - git log -1 --oneline
-    - git tag --merged HEAD
-    - git log --graph --oneline --decorate --all
-    - git tag --sort=-creatordate --list 'webui-*' | head -n1
-    - git rev-list --ancestry-path HEAD...ce1b1110f035135b9369c0e01ef5a28e75db14fa
-    - git merge-base HEAD ce1b1110f035135b9369c0e01ef5a28e75db14fa
-    - git describe --tags --abbrev=0 --match 'webui-*'
     - ./build-image.sh
   only:
     - main
