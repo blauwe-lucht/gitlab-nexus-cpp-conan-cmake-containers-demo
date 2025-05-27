@@ -157,6 +157,12 @@ prepare_and_push_repo() {
     rm -rf "$stage_dir"
     git clone --single-branch --branch "tmp-$project" "$SCRIPT_DIR" "$stage_dir"
     git -C "$stage_dir" checkout -b main
+
+    # Copy all tags reachable from the subtree:
+    git -C "$SCRIPT_DIR" tag --merged "tmp-$project" | while read -r tag; do
+        git -C "$stage_dir" tag "$tag" "$(git -C "$SCRIPT_DIR" rev-parse "$tag")"
+    done
+
     git -C "$SCRIPT_DIR" branch -D "tmp-$project"
 
     (
@@ -169,6 +175,7 @@ prepare_and_push_repo() {
         fi
 
         git push gitlab main --force
+        git push gitlab --tags --force
     )
 }
 
