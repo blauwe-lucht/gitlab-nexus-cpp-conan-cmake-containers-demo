@@ -12,10 +12,10 @@ build_and_upload:
   stage: build_and_upload
   script:
     - git show-ref --tags
-    - git describe --tags --abbrev=0 --match 'webui-*'
     - git log -1 --oneline
     - git tag --merged HEAD
     - git log --oneline --decorate --graph --all --simplify-by-decoration
+    - git describe --tags --abbrev=0 --match 'webui-*'
     - ./build-image.sh
   only:
     - main
