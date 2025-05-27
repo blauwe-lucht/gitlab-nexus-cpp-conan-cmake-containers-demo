@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Retrieve the latest Git tag:
-TAG=$(git describe --tags --abbrev=0)
+TAG=$(git describe --tags --abbrev=0 --match 'webui-*')
 
 # Filter out the version number (assumes there is no suffix):
 TAG_NO_V=$(echo "$TAG" | sed 's/^[^0-9]*//')
