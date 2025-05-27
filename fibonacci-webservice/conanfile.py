@@ -1,22 +1,42 @@
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
+import subprocess
 
 class fibonacci_webserviceRecipe(ConanFile):
+    def get_version_from_script(self):
+        script_path = f"{self.recipe_folder}/get-version.sh"
+        result = subprocess.run(
+            ["bash", str(script_path)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        
+        if result.returncode != 0:
+            raise RuntimeError(f"get-version.sh failed with exit code {result.returncode}: {result.stderr.strip()}")
+        
+        version = result.stdout.strip()
+        if not version:
+            raise RuntimeError("get-version.sh did not return a version string.")
+        
+        return version
+
     name = "fibonacci-webservice"
-    version = "1.0.3"
+
+    @property
+    def version(self):
+        return self.get_version_from_script()
+
     package_type = "application"
 
-    # Optional metadata
     license = "MIT"
     author = "Blauwe Lucht sebastiaan@blauwe-lucht.nl"
     url = "https://github.com/blauwe-lucht/gitlab-nexus-cpp-conan-cmake-containers-demo"
     description = "Webservice to calculate Fibonacci numbers"
     topics = ("fibonacci", "webservice", "demo")
 
-    # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
 
-    # Sources are located in the same place as this recipe, copy them to the recipe
     exports_sources = "CMakeLists.txt", "src/*"
 
     def requirements(self):
