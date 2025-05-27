@@ -5,8 +5,17 @@ variables:
   GIT_DEPTH: "0"
 
 stages:
+  - init
   - build_and_upload
   - deploy_tst
+
+init:
+  stage: init
+  script:
+    echo "VERSION=$(./get-version.sh)" > build.env
+  artifacts:
+    reports:
+      dotenv: build.env
 
 build_and_upload:
   stage: build_and_upload
@@ -20,6 +29,6 @@ deploy_tst:
   environment: tst
   image: ansible:latest
   script:
-    - ./deploy-to.sh tst
+    - ./deploy-to.sh tst $VERSION
   only:
     - main
