@@ -28,8 +28,8 @@ You should not have anything listening on ports 8080, 8081, 8083 and port 5000.
 - Watch the effect in GitLab: http://gitlab.local:8080, user ```root```, password ```Abcd1234!```
 - The library will end up in Nexus: http://nexus.local:8081, user ```admin```, password ```Abcd1234!```
 - The container image will end up in the Docker Registry: http://localhost:8083
-- After deploying to the test server (TBD) the Swagger UI page of the fibonacci-webservice can
-be found at http://192.168.8.18:27372/swagger/ui
+- Swagger UI page of the fibonacci-webservice can be found at http://192.168.8.18:27372/swagger/ui
+- The Fibonacci application can be found at http://192.168.8.18
 
 ## Notes
 
@@ -47,7 +47,6 @@ for alternatives.
 is needed by the conan-upload user.
 - Autogenerate version from tag and commits since tag. (how to make this work with the demo repo?)
 - Make fibonacci-webservice port configurable through environment.
-- Add Ansible scripts to deploy ficonacci-webUI container.
 - Put Nexus conan-upload user name and password in pipeline secrets.
 - setup.sh doesn't work from a clean start, you have to wait a bit and run it again because Nexus isn't ready yet.
 - Add devcontainers to fibonacci, fibonacci-webservice and fibonacci-webui so they can be edited like a developer normally would.
