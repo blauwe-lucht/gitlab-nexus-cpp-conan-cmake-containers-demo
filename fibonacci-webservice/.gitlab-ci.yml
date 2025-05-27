@@ -52,6 +52,7 @@ deploy_tst:
   environment: tst
   image: ansible:latest
   script:
+    - echo $VERSION
     - ./deploy-to.sh tst $VERSION
   only:
     - main

@@ -4,7 +4,7 @@ set -euo pipefail
 
 # Cmdline argument is the target environment.
 if [ $# -ne 2 ]; then
-    echo "Usage: $0 <environment>"
+    echo "Usage: $0 <environment> <version>"
     exit 1
 fi
 TARGET_ENV="$1"
