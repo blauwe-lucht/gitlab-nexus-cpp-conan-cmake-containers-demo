@@ -8,9 +8,5 @@ RUN dnf install -y \
       docker \
     && dnf clean all
 
-# install Conan and set up profile
-RUN pip3 install --no-cache-dir conan \
-    && conan profile detect \
-    && conan profile update settings.compiler.cppstd=17 default \
-    && conan remote add conan-hosted http://nexus.local:8081/repository/conan-hosted/ --insecure \
-    && conan remote login conan-hosted conan-upload -p "Abcd1234!"
+# install Conan
+RUN pip3 install --no-cache-dir conan
