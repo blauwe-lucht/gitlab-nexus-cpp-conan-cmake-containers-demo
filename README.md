@@ -54,3 +54,4 @@ is needed by the conan-upload user.
 - Add structured logging.
 - Figure out how to handle branches in the pipeline (don't upload/add suffix to version).
 - Add test coverage.
+- Figure out where the gitlab-runner 403s come from in the log. I'm getting these with GitLab 16, 17 and 18.

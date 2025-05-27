@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Retrieve the latest Git tag:
-TAG=$(git tag --sort=-creatordate --list 'webservice-*' | head -n1)
+TAG=$(git tag --sort=-creatordate --list 'webservice-*' 2> /dev/null | head -n1)
 if [ -z "$TAG" ]; then
     echo "No tags found matching 'webservice-*'. Exiting."
     exit 1
