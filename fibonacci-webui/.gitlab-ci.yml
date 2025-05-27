@@ -11,6 +11,7 @@ stages:
 build_and_upload:
   stage: build_and_upload
   script:
+    - git show-ref --tags
     - ./build-image.sh
   only:
     - main
