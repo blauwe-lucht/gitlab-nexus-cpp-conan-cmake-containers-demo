@@ -45,7 +45,6 @@ for alternatives.
 
 - Nexus roles are a bit of a mess: anonymous-deploy is probably not needed by the anonymous user, but
 is needed by the conan-upload user.
-- Autogenerate version from tag and commits since tag. (how to make this work with the demo repo?)
 - Make fibonacci-webservice port configurable through environment.
 - Put Nexus conan-upload user name and password in pipeline secrets.
 - setup.sh doesn't work from a clean start, you have to wait a bit and run it again because Nexus isn't ready yet.
