@@ -7,10 +7,12 @@ ARG FIBONACCI_WEBUI_VERSION=unknown
 COPY index.html /usr/share/nginx/html/index.html
 COPY entrypoint.sh /entrypoint.sh
 
+USER root
 RUN chmod +x /entrypoint.sh \
     && sed "s|__VERSION__|${FIBONACCI_WEBUI_VERSION}|g" /usr/share/nginx/html/index.html > /usr/share/nginx/html/index.tmp \
     && mv /usr/share/nginx/html/index.tmp /usr/share/nginx/html/index.html \
     && chown -R nginx:nginx /usr/share/nginx/html /entrypoint.sh
+USER nginx
 
 EXPOSE 8080
 
