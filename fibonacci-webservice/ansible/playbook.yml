@@ -1,6 +1,8 @@
 ---
 - name: Deploy Fibonacci Webservice with Docker
   hosts: all
+  vars:
+    webservice_host_port: 27372
   tasks:
     - name: Start fibonacci-webservice container
       community.docker.docker_container:
@@ -11,4 +13,6 @@
         restart_policy: unless-stopped
         detach: true
         published_ports:
-          - "27372:27372"
+          - "{{ webservice_host_port }}:27372"
+        env:
+          API_URL: "http://{{ ansible_host }}:{{ webservice_host_port }}"

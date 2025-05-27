@@ -52,6 +52,11 @@ public:
         
         oatpp::swagger::DocumentInfo::Builder builder;
         
+        const char* apiUrl = std::getenv("API_URL");
+        if (!apiUrl) {
+            apiUrl = "http://localhost:27372";
+        }
+
         builder
         .setTitle("Fibonacci Web Service")
         .setDescription("REST API for Fibonacci number calculation")
@@ -59,11 +64,9 @@ public:
         .setContactName("Fibonacci Service")
         .setLicenseName("Apache License, Version 2.0")
         .setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0")
-        
-        .addServer("http://localhost:27372", "server on localhost");
+        .addServer(apiUrl, "webservice");
         
         return builder.build();
-        
     }());
     
     /**
