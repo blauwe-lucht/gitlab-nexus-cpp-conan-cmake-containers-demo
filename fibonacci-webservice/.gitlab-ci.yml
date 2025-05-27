@@ -1,5 +1,9 @@
 image: conan-cpp:latest
 
+# We need to get the full history so we can automatically generate a version:
+variables:
+  GIT_DEPTH: "0"
+
 stages:
   - init
   - build
@@ -18,7 +22,6 @@ init:
         echo "Remote conan-hosted already exists, skipping add";
       fi
     - conan remote login conan-hosted conan-upload -p "Abcd1234!"
-    - git tag --sort=-creatordate --list 'webservice-*'
     - echo "VERSION=$(./get-version.sh)" > build.env
   artifacts:
     reports:
@@ -53,7 +56,6 @@ deploy_tst:
   environment: tst
   image: ansible:latest
   script:
-    - echo $VERSION
     - ./deploy-to.sh tst $VERSION
   only:
     - main
