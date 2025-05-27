@@ -1,4 +1,4 @@
-FROM docker.io/library/nginxinc/nginx-unprivileged:1.27.5-alpine3.21
+FROM nginxinc/nginx-unprivileged:1.27.5-alpine3.21
 
 # This should be passed when building the image:
 ARG FIBONACCI_WEBUI_VERSION=unknown
