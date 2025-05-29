@@ -1,5 +1,24 @@
 # Demo of C++ development process using GitLab, Nexus, Conan, CMake and containers
 
+## What this demo shows
+
+- Using GitLab as Git repository and as central build system.
+- Using Conan for package manager and build orchestrator.
+- Using CMake to compile and link C++ applications.
+- Using Nexus to store Conan packages.
+- Making a Conan package of a C++ library.
+- Using that package as part of a stand-alone executable.
+- Creating a REST API with C++ that ends up as a Docker image.
+- Creating a Swagger UI on top of that REST API.
+- A containerized simple web UI using the REST API.
+- Using Google Test unit tests in Conan and CMake.
+- GitLab Pipelines for all components of this demo.
+- Output of Google Test unit tests in the results of a GitLab pipeline.
+- Deploying both automatically and with a manual gate.
+- Automatically generating version numbers using Git tags (tag specify major and minor version, number of commits since tag specified patch version).
+- Deploying containers to a VM with Ansible.
+- How GitLab displays deployed versions of each component in each environment.
+
 ## Prerequisites
 
 - Some Linux (tested with Kubuntu 22.04)
@@ -30,8 +49,8 @@ Put them all next to eachother and keep the default names, they are needed by th
 ## Usage
 
 - ```./setup.sh```
-- Open the project in vscode in a devcontainer.
-- Make changes to sources in _gitlab_push and push them.
+- Open one of the subrespos in vscode in a devcontainer.
+- Make changes to sources and push them. Set a tags 'vX.Y' when you want to change major and/or minor versions, don't forget to push the tags!
 - Watch the effect in GitLab: http://gitlab.local:8080, user ```root```, password ```Abcd1234!```
 - The library will end up in Nexus: http://nexus.local:8081, user ```admin```, password ```Abcd1234!```
 - The container image will end up in the Docker Registry: http://localhost:8083
@@ -64,3 +83,4 @@ is needed by the conan-upload user.
 - Add appropriate extensions to the devcontainers (cmaketools, Ansible, ...).
 - Add appropriate build actions to the devcontainers.
 - Add fibonacci-cmdline project.
+- Basing devcontainers on images that are used by the builds.
