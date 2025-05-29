@@ -145,38 +145,25 @@ ensure_gitlab_project() {
 prepare_and_push_repo() {
     local project="$1"
     local group_name="$2"
-    local stage_dir="${SCRIPT_DIR}/_gitlab_push/${project}"
+
+    local external_repo_dir="$(dirname "$SCRIPT_DIR")/gitlab-nexus-cpp-conan-cmake-container-demo-${project}"
     local remote_url="http://root:${GITLAB_PAT}@${GITLAB_HOST}:${GITLAB_PORT}/${group_name}/${project}.git"
 
-    log_info "Preparing subdir '$project' for GitLab push to '$group_name/$project'..."
+    if [[ ! -d "$external_repo_dir/.git" ]]; then
+        log_error "Directory '$external_repo_dir' is not a git repository."
+        return 1
+    fi
 
-    mkdir -p "$(dirname "$stage_dir")"
+    log_info "Adding/updating gitlab remote for '$external_repo_dir'..."
+    if git -C "$external_repo_dir" remote | grep -q gitlab; then
+        git -C "$external_repo_dir" remote set-url gitlab "$remote_url"
+    else
+        git -C "$external_repo_dir" remote add gitlab "$remote_url"
+    fi
 
-    # Create or update standalone repo
-    git -C "$SCRIPT_DIR" subtree split --prefix="$project" -b "tmp-$project"
-    rm -rf "$stage_dir"
-    git clone --single-branch --branch "tmp-$project" "$SCRIPT_DIR" "$stage_dir"
-    git -C "$stage_dir" checkout -b main
-
-    # Copy all tags reachable from the subtree:
-    git -C "$SCRIPT_DIR" tag --merged "tmp-$project" | while read -r tag; do
-        git -C "$stage_dir" tag "$tag" "$(git -C "$SCRIPT_DIR" rev-parse "$tag")"
-    done
-
-    git -C "$SCRIPT_DIR" branch -D "tmp-$project"
-
-    (
-        cd "$stage_dir"
-
-        if ! git remote | grep -q gitlab; then
-            git remote add gitlab "$remote_url"
-        else
-            git remote set-url gitlab "$remote_url"
-        fi
-
-        git push gitlab main --force
-        git push gitlab --tags --force
-    )
+    log_info "Pushing main branch and tags to gitlab remote..."
+    git -C "$external_repo_dir" push gitlab main --force
+    git -C "$external_repo_dir" push gitlab --tags --force
 }
 
 parse_flags "$@"
@@ -188,8 +175,8 @@ else
 fi
 
 ensure_gitlab_group "${GROUP_NAME}"
-ensure_gitlab_project "fibonacci" "${GROUP_NAME}"
-prepare_and_push_repo "fibonacci" "${GROUP_NAME}"
+ensure_gitlab_project "libfibonacci" "${GROUP_NAME}"
+prepare_and_push_repo "libfibonacci" "${GROUP_NAME}"
 ensure_gitlab_project "fibonacci-webservice" "${GROUP_NAME}"
 prepare_and_push_repo "fibonacci-webservice" "${GROUP_NAME}"
 ensure_gitlab_project "fibonacci-webui" "${GROUP_NAME}"

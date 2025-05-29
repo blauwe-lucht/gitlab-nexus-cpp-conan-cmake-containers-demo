@@ -18,10 +18,17 @@ You need to have some entries in your hosts file to make everything work correct
 
 You should not have anything listening on ports 8080 (GitLab), 8081 (Nexus), 8083 (Registry UI) and port 5000 (Registry).
 
+Clone these repositories:
+
+- this one
+- https://github.com/blauwe-lucht/gitlab-nexus-cpp-conan-cmake-containers-demo-libfibonacci
+- https://github.com/blauwe-lucht/gitlab-nexus-cpp-conan-cmake-containers-demo-fibonacci-webservice
+- https://github.com/blauwe-lucht/gitlab-nexus-cpp-conan-cmake-containers-demo-fibonacci-webui
+
+Put them all next to eachother and keep the default names, they are needed by the configure-gitlab.sh script.
+
 ## Usage
 
-- ```docker compose up -d```
-- Wait until the gitlab container is healthy.
 - ```./setup.sh```
 - Open the project in vscode in a devcontainer.
 - Make changes to sources in _gitlab_push and push them.
@@ -29,7 +36,7 @@ You should not have anything listening on ports 8080 (GitLab), 8081 (Nexus), 808
 - The library will end up in Nexus: http://nexus.local:8081, user ```admin```, password ```Abcd1234!```
 - The container image will end up in the Docker Registry: http://localhost:8083
 - Swagger UI page of the fibonacci-webservice can be found at http://192.168.8.18:27372/swagger/ui
-- The Fibonacci application can be found at http://192.168.8.18
+- The Fibonacci web application can be found at http://192.168.8.18
 
 ## Notes
 
@@ -47,11 +54,13 @@ for alternatives.
 is needed by the conan-upload user.
 - Make fibonacci-webservice port configurable through environment.
 - Put Nexus conan-upload user name and password in pipeline secrets.
-- setup.sh doesn't work from a clean start, you have to wait a bit and run it again because Nexus isn't ready yet.
-- Add devcontainers to fibonacci, fibonacci-webservice and fibonacci-webui so they can be edited like a developer normally would.
 - Figure out how to build directly from vscode.
 - Figure out how to run unit tests directly from vscode.
 - Add structured logging.
 - Figure out how to handle branches in the pipeline (don't upload/add suffix to version).
 - Add test coverage.
 - Figure out where the gitlab-runner 403s come from in the log. I'm getting these with GitLab 16, 17 and 18.
+- Upgrade to GitLab 17.
+- Add appropriate extensions to the devcontainers (cmaketools, Ansible, ...).
+- Add appropriate build actions to the devcontainers.
+- Add fibonacci-cmdline project.
