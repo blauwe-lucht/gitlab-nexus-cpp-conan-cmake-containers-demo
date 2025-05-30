@@ -7,7 +7,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/.env"
 
 GITLAB_URL="http://${GITLAB_HOST}:${GITLAB_PORT}/"
-RUNNER_CONTAINER="gitlab-runner"
 DEFAULT_CI_IMAGE="conan-cpp:latest"
 DESCRIPTION="docker-runner"
 EXECUTOR="docker"
