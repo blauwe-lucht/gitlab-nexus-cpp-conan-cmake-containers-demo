@@ -66,6 +66,9 @@ multiple versions of a conan package are installed. Take a look at
 for alternatives.
 - Also, you have to ```Developer: Reload Window``` after downloading requirements before IntelliSense will pick them up.
 - Using version ranges in requirements is not working yet in Conan repositories in Nexus. So you always have to specify the exact version.
+- When adding runners through register-runner.sh and removing them from the GitLab UI, you will end up
+with runners on the GitLab Runner container that are invalid. The GitLab Runner will still try to get job requests for those runners,
+but that will result in 403 Forbidden.
 
 ## TODO
 
@@ -78,8 +81,7 @@ is needed by the conan-upload user.
 - Add structured logging.
 - Figure out how to handle branches in the pipeline (don't upload/add suffix to version).
 - Add test coverage.
-- Figure out where the gitlab-runner 403s come from in the log. I'm getting these with GitLab 16, 17 and 18.
-- Upgrade to GitLab 17.
+- Figure out why the idle runner is not responding to job requests (may because of invalid runners?).
 - Add appropriate extensions to the devcontainers (cmaketools, Ansible, ...).
 - Add appropriate build actions to the devcontainers.
 - Add fibonacci-cmdline project.
