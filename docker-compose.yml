@@ -1,7 +1,7 @@
 ---
 services:
   gitlab:
-    image: gitlab/gitlab-ce:16.11.10-ce.0
+    image: gitlab/gitlab-ce:17.11.3-ce.0
     hostname: ${GITLAB_HOST}
     container_name: gitlab
     restart: unless-stopped
@@ -27,7 +27,7 @@ services:
       - gitlab_data:/var/opt/gitlab
 
   gitlab-runner:
-    image: gitlab/gitlab-runner:v16.11.4
+    image: gitlab/gitlab-runner:v17.11.2
     container_name: gitlab-runner
     depends_on:
       - gitlab
