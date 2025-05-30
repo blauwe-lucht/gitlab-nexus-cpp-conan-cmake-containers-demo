@@ -3,8 +3,8 @@
 ## What this demo shows
 
 - Using GitLab as Git repository and as central build system.
-- Using Conan for package manager and build orchestrator.
-- Using CMake to compile and link C++ applications.
+- Using Conan as package manager and build orchestrator.
+- Using CMake to build C++ libraries and applications.
 - Using Nexus to store Conan packages.
 - Making a Conan package of a C++ library.
 - Using that package as part of a stand-alone executable.
@@ -15,9 +15,10 @@
 - GitLab Pipelines for all components of this demo.
 - Output of Google Test unit tests in the results of a GitLab pipeline.
 - Deploying both automatically and with a manual gate.
-- Automatically generating version numbers using Git tags (tag specify major and minor version, number of commits since tag specified patch version).
+- Automatically generating version numbers using Git tags (tag specifies major and minor version, number of commits since tag specifies patch version).
 - Deploying containers to a VM with Ansible.
 - How GitLab displays deployed versions of each component in each environment.
+- Configuring the pipeline to show coverage percentages and uncovered lines in Merge Request diffs.
 
 ## Prerequisites
 
@@ -53,7 +54,7 @@ Put them all next to eachother and keep the default names, they are needed by th
 - Make changes to sources and push them. Set a tags 'vX.Y' when you want to change major and/or minor versions, don't forget to push the tags!
 - Watch the effect in GitLab: http://gitlab.local:8080, user ```root```, password ```Abcd1234!```
 - The library will end up in Nexus: http://nexus.local:8081, user ```admin```, password ```Abcd1234!```
-- The container image will end up in the Docker Registry: http://localhost:8083
+- The container images will end up in the Docker Registry: http://localhost:8083
 - Swagger UI page of the fibonacci-webservice can be found at http://192.168.8.18:27372/swagger/ui
 - The Fibonacci web application can be found at http://192.168.8.18
 
@@ -64,11 +65,11 @@ Put them all next to eachother and keep the default names, they are needed by th
 multiple versions of a conan package are installed. Take a look at
 [this StackOverflow topic](https://stackoverflow.com/questions/58077908/linking-conan-include-to-vs-code/)
 for alternatives.
-- Also, you have to ```Developer: Reload Window``` after downloading requirements before IntelliSense will pick them up.
+- You have to ```Developer: Reload Window``` after downloading requirements before IntelliSense will pick them up.
 - Using version ranges in requirements is not working yet in Conan repositories in Nexus. So you always have to specify the exact version.
 - When adding runners through register-runner.sh and removing them from the GitLab UI, you will end up
 with runners on the GitLab Runner container that are invalid. The GitLab Runner will still try to get job requests for those runners,
-but that will result in 403 Forbidden.
+but that will result in 403 Forbidden. So use unregister-runner.sh instead.
 
 ## TODO
 
@@ -80,8 +81,8 @@ is needed by the conan-upload user.
 - Figure out how to run unit tests directly from vscode.
 - Add structured logging.
 - Figure out how to handle branches in the pipeline (don't upload/add suffix to version).
-- Add test coverage.
-- Figure out why the idle runner is not responding to job requests (may because of invalid runners?).
+- Add test coverage to fibonacci-webservice.
+- Figure out why the idle runner is not responding to job requests (maybe because of invalid runners?).
 - Add appropriate extensions to the devcontainers (cmaketools, Ansible, ...).
 - Add appropriate build actions to the devcontainers.
 - Add fibonacci-cmdline project.
