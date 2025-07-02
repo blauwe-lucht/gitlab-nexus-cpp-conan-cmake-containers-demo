@@ -35,6 +35,9 @@ Vagrant.configure("2") do |config|
                     echo "10.0.2.2 registry.local" >> /etc/hosts
                 fi
             SHELL
+
+            # Prevent errors when restarting the VM
+            vm_config.vm.synced_folder ".", "/vagrant", disabled: true
         end
     end
 end
